@@ -1,0 +1,58 @@
+{
+  "name": "dsh-jev",
+  "version": "0.1.0",
+  "description": "TypeSafe JEV structured evaluations for DeepSeek Harness: Choice, Score and Noul in one tool",
+  "homepage": "https://github.com/iptton-ai/dsh-jev#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iptton-ai/dsh-jev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iptton-ai/dsh-jev/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "examples",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-tools": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-credentials": "^0.2.0-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.4"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh": { "optional": true },
+    "@deepseek-ai/dsh-tools": { "optional": true },
+    "@deepseek-ai/dsh-llm": { "optional": true },
+    "@deepseek-ai/dsh-credentials": { "optional": true },
+    "@deepseek-ai/schemastery": { "optional": true }
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "link:host": "node scripts/link-host.mjs",
+    "check": "node --check lib/index.js && node --check lib/client.js && node --check lib/schema.js && node --check scripts/link-host.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "license": "MIT",
+  "keywords": ["dsh", "deepseek-harness", "plugin", "typesafe", "jev", "evaluation"]
+}

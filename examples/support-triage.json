@@ -1,0 +1,30 @@
+{
+  "state": {
+    "message": "我的收款已经连续三天失败了，今天必须处理好，否则客户都要退款！",
+    "customer_tier": "business"
+  },
+  "questions": {
+    "is_urgent": {
+      "type": "noul",
+      "instructions": "客户的问题是否需要优先处理？",
+      "criteria": {
+        "true": "明确的时间压力或对业务有显著影响",
+        "false": "没有时间压力，可以按普通队列处理"
+      }
+    },
+    "department": {
+      "type": "choice",
+      "instructions": "哪个团队最适合处理这个问题？",
+      "criteria": {
+        "billing": "支付、收款、发票、退款",
+        "technical": "系统错误、服务中断、集成故障",
+        "sales": "价格、升级、新账户咨询"
+      }
+    },
+    "frustration": {
+      "type": "score",
+      "instructions": "客户的情绪有多强烈？",
+      "criteria": ["平静", "不满", "非常愤怒"]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+- insert:
+    - id: jev
+      name: dsh-jev
+      config:
+        apiKeyEnv: TYPESAFE_API_KEY
+        baseURL: https://api.typesafe.ai
+        model: jev-latest
+        timeoutMs: 60000
+        maxRetries: 2
