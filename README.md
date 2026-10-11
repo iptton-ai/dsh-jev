@@ -34,9 +34,17 @@ node scripts/link-host.mjs
 
 ## 配置 API Key
 
-在 DSH 设置的 **jev** 插件配置中，`apiKeyEnv` 默认是 `TYPESAFE_API_KEY`。通过该配置项的凭据控件保存 TypeSafe API Key，或让宿主的凭据服务从同名环境变量读取。凭据服务也支持宿主已加载的项目/用户 `.env` 回退；已有进程未必能读到后来设置的 shell 环境变量，优先使用 DSH 凭据控件。
+从 DSH 侧边栏打开 **插件**，在已安装的 bundle 中进入 **dsh-jev** 详情，填写 **TypeSafe API Key** 并点击 **保存**。详情页中的 `jev` 行也提供「配置」入口，打开的是同一个表单。此页面从 `0.1.1` 起提供，使用 DSH 官方插件详情扩展点与凭据服务。
 
-这里填写的是凭据引用名称，实际 API Key 不放进工具参数或 bundle 配置。插件每次调用重新读取凭据和配置，凭据更新后无须重新注册工具。
+页面只显示「已配置 / 未配置」状态，不读取或回显已保存的密钥。留空保留现有密钥；填写新值并保存可替换密钥。保存后下一次 `jev_evaluate` 调用立即使用新值，无须重新注册工具。
+
+`apiKeyEnv` 默认是 `TYPESAFE_API_KEY`，它是凭据引用名称，可在宿主的插件配置文档中修改；详情页会显示当前引用并向其保存密钥。实际 API Key 保存在 DSH 凭据存储中，不放进工具参数或 bundle 配置。
+
+也可以让宿主从同名环境变量读取。凭据解析顺序是环境变量 → DSH 凭据存储 → 项目 `.env` → 用户 `.env`；环境变量已提供密钥时，页面显示为只读，需在该来源更新。已有进程未必能读到后来设置的 shell 环境变量。
+
+DSH 官方提供了[插件详情页扩展点](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.0-rc.2/packages/client/ui-plugin-manager/README.zh.md)和[凭据服务](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.0-rc.2/packages/credentials/README.zh.md)，但[目前未发布按配置 schema 自动生成页面的客户端](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.0-rc.2/packages/settings/settings/README.zh.md)。因此本插件提供自己的详情表单。
+
+从旧版升级后，需要让宿主重新加载包清单，再刷新当前页面，以发现新增的浏览器入口；仅修改源码或刷新页面不足以清除宿主的清单缓存。
 
 | 配置项 | 默认值 | 含义 |
 | --- | --- | --- |
@@ -141,6 +149,6 @@ npm test
 npm pack --dry-run
 ```
 
-50 项测试使用当前宿主的 `defineTool`、`ToolRuntime`、schemastery 和兼容性检查，并通过本地 HTTP 服务验证真正的 fetch 请求；覆盖混合问题、限流重试（含超长 `Retry-After`）、超时/取消、结构化错误码、错误密钥屏蔽及配置/凭据轮换。测试不使用 TypeSafe API Key，也不消耗在线额度。
+62 项测试使用当前宿主的 `defineTool`、`ToolRuntime`、schemastery、`SettingsFormModel`、Slot 注册器和兼容性检查，并通过本地 HTTP 服务验证真正的 fetch 请求；覆盖混合问题、限流重试（含超长 `Retry-After`）、超时/取消、结构化错误码、错误密钥屏蔽及配置/凭据轮换。详情页测试覆盖密钥保存、失败后保留草稿、只读状态、引用切换、过期响应和注册清理；仅对浏览器快照存储及 RPC 做替身。测试不使用 TypeSafe API Key，也不消耗在线额度。
 
 资料：[TypeSafe 入门](https://docs.typesafe.ai/introduction)、[API 参考](https://docs.typesafe.ai/api)、[JavaScript SDK](https://docs.typesafe.ai/sdk/javascript)。
